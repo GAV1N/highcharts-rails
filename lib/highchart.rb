@@ -20,115 +20,119 @@ class Highchart
     end  
   end
 
-  def initialize(options={})
-    # override highcharts defaults
-    @credits = {
-      :enabled => false
-    }
-    @legend = {
-      :layout => 'vertical', 
-      :style => {
-         :left => 'auto', 
-         :bottom => 'auto', 
-         :right => '50px', 
-         :top => '75px'
-      }
-    }
+  def initialize(options={}) 
+    options[:use_defaults] ||= false
     
-    # IE7 displays 'null' without this
-    @title = {
-      :text => ""
-    }
-    @x_axis = {
-      :title => {
+    if options[:use_defaults]
+      # override highcharts defaults
+      @credits = {
+        :enabled => false
+      } 
+      @legend = {
+        :layout => 'vertical', 
+        :style => {
+           :left => 'auto', 
+           :bottom => 'auto', 
+           :right => '50px', 
+           :top => '75px'
+        }
+      }
+      # IE7 displays 'null' without this
+      @title = {
         :text => ""
       }
-    }
-    @y_axis = {
-      :title => {
-        :text => ""
+      @x_axis = {
+        :title => {
+          :text => ""
+        }
       }
-    }
+      @y_axis = {
+        :title => {
+          :text => ""
+        }
+      } 
     
-    # define defaults based on chart type
-    case options[:type].to_s
-    when 'area'
-      @chart = {
-        :defaultSeriesType => 'area',
-        :margin => [50, 200, 60, 80]
-      }
-    when 'areaspline'
-      @chart = {
-        :defaultSeriesType => 'areaspline',
-        :margin => [50, 200, 60, 80]
-      }
-    when 'bar'
-      @chart = {
-        :inverted => true, 
-        :defaultSeriesType => 'bar', 
-        :margin => [50, 50, 50, 100]
-      }
-      @plotOptions = {
-        :bar => {
-          :showInLegend => false,
-          :dataLabels => {
-            :y => -5,
-            :enabled => true, 
-            :color => '#666666'
+      # define defaults based on chart type
+      case options[:type].to_s
+      when 'area'
+        @chart = {
+          :defaultSeriesType => 'area',
+          :margin => [50, 200, 60, 80]
+        }
+      when 'areaspline'
+        @chart = {
+          :defaultSeriesType => 'areaspline',
+          :margin => [50, 200, 60, 80]
+        }
+      when 'bar'
+        @chart = {
+          :inverted => true, 
+          :defaultSeriesType => 'bar', 
+          :margin => [50, 50, 50, 100]
+        }
+        @plotOptions = {
+          :bar => {
+            :showInLegend => false,
+            :dataLabels => {
+              :y => -5,
+              :enabled => true, 
+              :color => '#666666'
+            }
           }
         }
-      }
-    when 'column'
-      @chart = {
-        :defaultSeriesType => 'column', 
-        :margin => [50, 50, 50, 100]
-      }
-      @plotOptions = {
-        :column => {
-          :showInLegend => false
+      when 'column'
+        @chart = {
+          :defaultSeriesType => 'column', 
+          :margin => [50, 50, 50, 100]
         }
-      }
-    when 'line'
-      @chart = {
-        :defaultSeriesType => 'line',
-        :margin => [50, 200, 60, 80]
-      }
-    when 'pie'
-      @chart = {
-        :margin => [10, 10, 10, 10]
-      }
-      @plotOptions = {
-        :pie => {
-          :dataLabels => {
-            :enabled => true, 
-            :color => 'white', 
-            :style => {:font => '10pt Helvetica'}
+        @plotOptions = {
+          :column => {
+            :showInLegend => false
           }
         }
-      }
-    when 'scatter'
-      @chart = {
-        :defaultSeriesType => 'scatter',
-        :margin => [50, 200, 60, 80]
-      }
-      @plotOptions = {
-        :scatter => {
-          :marker => {
-            :radius => 5,
-            :states => {
-              :hover => {
-                :enabled => true,
-                :lineColor => '#666666'
+      when 'line'
+        @chart = {
+          :defaultSeriesType => 'line',
+          :margin => [50, 200, 60, 80]
+        }
+      when 'pie'
+        @chart = {
+          :margin => [10, 10, 10, 10]
+        }
+        @plotOptions = {
+          :pie => {
+            :dataLabels => {
+              :enabled => true, 
+              :color => 'white', 
+              :style => {:font => '10pt Helvetica'}
+            }
+          }
+        }
+      when 'scatter'
+        @chart = {
+          :defaultSeriesType => 'scatter',
+          :margin => [50, 200, 60, 80]
+        }
+        @plotOptions = {
+          :scatter => {
+            :marker => {
+              :radius => 5,
+              :states => {
+                :hover => {
+                  :enabled => true,
+                  :lineColor => '#666666'
+                }
               }
             }
           }
         }
-      }
-    when 'spline'
-      @chart = {
-        :defaultSeriesType => 'spline',
-        :margin => [50, 200, 60, 80]
-      }
+      when 'spline'
+        @chart = {
+          :defaultSeriesType => 'spline',
+          :margin => [50, 200, 60, 80]
+        }
+      end
+      
     end
     
     # set the options from provided hash
